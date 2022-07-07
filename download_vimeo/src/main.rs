@@ -1,27 +1,10 @@
-extern crate clap;
+use download_vimeo::commandline::parser;
 
-use clap::{App, Arg};
+extern crate clap;
 
 #[tokio::main]
 async fn main() {
-    let app = App::new("download_vimeo")
-        .version("0.1.0")
-        .about("download vimeo videos even private")
-        .arg(
-            Arg::new("url")
-                .long("url")
-                .help("give the segment file url")
-                .takes_value(true)
-                .required(true),
-        )
-        .arg(
-            Arg::new("output")
-                .long("output")
-                .help("give the output file path")
-                .takes_value(true)
-                .required(true),
-        );
-    let matches = app.get_matches();
+    let matches = parser::Parser::origin().command.get_matches();
     if let Some(o) = matches.value_of("url") {
         println!("{}", o);
     }
