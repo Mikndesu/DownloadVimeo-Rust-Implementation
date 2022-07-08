@@ -1,12 +1,13 @@
 use crate::model::model::Model;
+use url::Url;
 
 pub struct FetchMetadata {
-    url: String
+    url: Url
 }
 
 impl FetchMetadata {
-    pub fn origin(url: &str) -> FetchMetadata {
-        FetchMetadata {url:url.to_string()}
+    pub fn origin(url:Url) -> FetchMetadata {
+        FetchMetadata {url}
     }
     pub async fn perform(self) -> Result<Model, Box<dyn std::error::Error>> {
         let resp = reqwest::get(self.url).await?;
