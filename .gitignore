@@ -2,3 +2,4 @@ target/
 .vscode/
 Cargo.lock
 sample.json
+.DS_Store
