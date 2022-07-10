@@ -1,13 +1,14 @@
-use std::io::Cursor;
+use std::{io::Cursor, path::Path};
+use url::Url;
 
-pub struct FetchSegment {
-    url: String,
-    file_path: String
+pub struct FetchSegment<'a> {
+    url: Url,
+    file_path: &'a Path
 }
 
-impl FetchSegment {
-    pub fn origin(url: &str, file_path: &str) -> FetchSegment {
-        FetchSegment {url:url.to_string(), file_path:file_path.to_string()}
+impl FetchSegment<'_> {
+    pub fn origin<'a>(url: &'a str, file_path: &'a str) -> FetchSegment<'a> {
+        FetchSegment {url:Url::parse(url).ok().unwrap(), file_path:Path::new(file_path)}
     }
     pub async fn perform(self) -> Result<(), Box<dyn std::error::Error>> {
         let response = reqwest::get(self.url).await?;
